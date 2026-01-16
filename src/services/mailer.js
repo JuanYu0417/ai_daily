@@ -5,7 +5,7 @@
  * Can be conditionally disabled via FEATURE_EMAIL flag
  */
 
-import { sendDailyEmail as sendEmail } from "./email.js";
+import { sendDailyEmail as sendEmail } from "../generators/email.js";
 
 export async function mailer({ date, markdown, to }) {
   const FEATURE_EMAIL = process.env.FEATURE_EMAIL === "true";
