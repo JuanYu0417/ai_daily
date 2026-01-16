@@ -16,7 +16,7 @@ import { filterRepos } from "./processors/filter.js";
 import { rankRepos } from "./processors/rank.js";
 import { summarizeRepos } from "./llm/summarizer.js";
 import { generateMarkdown, saveDailyMarkdown } from "./generators/markdown.js";
-import { commitAndPushDaily } from "./utils/git.js";
+import { commitAndPushDaily } from "./services/git.js";
 import { mailer } from "./notifications/mailer.js";
 
 const date = new Date().toISOString().slice(0, 10);
