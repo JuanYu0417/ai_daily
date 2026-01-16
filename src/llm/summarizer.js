@@ -9,7 +9,7 @@ import OpenAI from "openai";
 import { buildRepoSummaryPrompt } from "./prompt.js";
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.GEMINI_API_KEY
 });
 
 /**

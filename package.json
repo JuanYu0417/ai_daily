@@ -1,0 +1,29 @@
+{
+  "name": "ai_daily",
+  "version": "1.0.0",
+  "description": "Automated AI Daily Calendar generator using GitHub Actions and OpenAI",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "daily",
+    "github-actions",
+    "openai",
+    "automation"
+  ],
+  "author": "juanyu0417",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.13",
+    "openai": "^4.28.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
