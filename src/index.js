@@ -10,7 +10,7 @@
  * 6. Optionally send Email
  */
 import "dotenv/config";
-import config from "./config/default.json" assert { type: "json" };
+import config from "./config/default.json" with { type: "json" };
 import { fetchGitHubRepos } from "./collectors/githubCollector.js";
 import { filterRepos } from "./processors/filter.js";
 import { rankRepos } from "./processors/rank.js";

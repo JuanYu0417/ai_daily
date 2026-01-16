@@ -12,14 +12,16 @@ import fetch from "node-fetch";
  * @param {string[]} topics
  * @returns {string}
  */
-function buildQuery(topics = []) {
-  if (!topics.length) {
-    throw new Error("No GitHub topics provided");
-  }
+export function buildQuery(rawTopics = []) {
+  const topics = (rawTopics || [])
+    .map(t => (typeof t === 'string' ? t.trim().toLowerCase() : ''))
+    .filter(Boolean);
 
-  // topic:llm OR topic:ai-tools
-  const topicQuery = topics.map(t => `topic:${t}`).join(" OR ");
-  return topicQuery;
+  const unique = Array.from(new Set(topics));
+  if (unique.length === 0) {
+    throw new Error("No valid GitHub topics found in configuration");
+  }
+  return unique.map(t => `topic:${t}`).join(' OR ');
 }
 
 /**
