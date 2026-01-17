@@ -40,6 +40,7 @@ export async function fetchGitHubRepos({
   order = "desc"
 }) {
   const query = buildQuery(topics);
+  console.log(`🔍 GitHub Query: [${query}]`);
 
   const url = new URL("https://api.github.com/search/repositories");
   url.searchParams.append("q", query);
@@ -51,7 +52,8 @@ export async function fetchGitHubRepos({
     headers: {
       "Accept": "application/vnd.github+json",
       "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
-      "User-Agent": "ai-daily-calendar-bot"
+      "User-Agent": "ai-daily-calendar-bot",
+      "X-GitHub-Api-Version": "2022-11-28"
     }
   });
 
@@ -64,7 +66,8 @@ export async function fetchGitHubRepos({
 
   const data = await response.json();
 
-  if (!data.items || !Array.isArray(data.items)) {
+  if (!data || (data.total_count > 0 && !Array.isArray(data.items))) {
+    if (data.total_count === 0) return [];
     throw new Error("Invalid GitHub API response format");
   }
 
