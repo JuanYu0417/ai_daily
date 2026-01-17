@@ -9,7 +9,8 @@ import OpenAI from "openai";
 import { buildRepoSummaryPrompt } from "./prompt.js";
 
 const client = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY
+  apiKey: process.env.GEMINI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/" 
 });
 
 /**
@@ -43,7 +44,7 @@ export async function summarizeRepo(repo) {
 
   try {
     const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gemini-1.5-flash",
       messages: [
         { role: "system", content: "You are a precise technical summarizer." },
         { role: "user", content: prompt }

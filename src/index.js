@@ -10,7 +10,8 @@
  * 6. Optionally send Email
  */
 import "dotenv/config";
-import config from "./config/default.json" with { type: "json" };
+//import config from "./config/default.json" with { type: "json" };
+import { createRequire } from "module";
 import { fetchGitHubRepos } from "./collectors/githubCollector.js";
 import { filterRepos } from "./processors/filter.js";
 import { rankRepos } from "./processors/rank.js";
@@ -19,17 +20,25 @@ import { generateMarkdown, saveDailyMarkdown } from "./generators/markdown.js";
 import { commitAndPushDaily } from "./services/git.js";
 import { mailer } from "./services/mailer.js";
 
+const require = createRequire(import.meta.url);
+const config = require("./config/default.json");
+
 const date = new Date().toISOString().slice(0, 10);
 
 async function main() {
   console.log("🚀 Starting AI Daily Calendar pipeline:", date);
 
   try {
+    if (!config.topics || !Array.isArray(config.topics) || config.topics.length === 0) {
+      throw new Error("❌ Config Error: 'topics' is missing or empty in default.json");
+    }
+    console.log("⚙️  Config loaded. Topics:", config.topics);
     // 1️⃣ Fetch
     const repos = await fetchGitHubRepos({
       topics: config.topics,
       perPage: 20
     });
+    console.log(`📥 Fetched ${repos.length} repositories.`);
 
     // 2️⃣ Filter
     const filtered = filterRepos(repos, {
@@ -56,7 +65,7 @@ async function main() {
     console.log("✅ Markdown saved:", filePath);
 
     // 6️⃣ Commit to Git
-    commitAndPushDaily(date);
+    //commitAndPushDaily(date);
 
     // 7️⃣ Send email (optional)
     await mailer({
@@ -67,6 +76,7 @@ async function main() {
 
   } catch (err) {
     console.error("❌ Pipeline failed:", err.message);
+    process.exit(1);
   }
 }
 

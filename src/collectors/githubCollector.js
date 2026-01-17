@@ -21,7 +21,7 @@ export function buildQuery(rawTopics = []) {
   if (unique.length === 0) {
     throw new Error("No valid GitHub topics found in configuration");
   }
-  return unique.map(t => `topic:${t}`).join(' OR ');
+  return unique.map(t => `topic:"${t}"`).join(' OR ');
 }
 
 /**
