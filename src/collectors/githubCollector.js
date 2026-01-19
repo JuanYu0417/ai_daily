@@ -21,7 +21,7 @@ export function buildQuery(rawTopics = []) {
   if (unique.length === 0) {
     throw new Error("No valid GitHub topics found in configuration");
   }
-  return unique.map(t => `topic:${t}`).join(' OR ');
+  return unique.join(' OR ');
 }
 
 /**
@@ -39,11 +39,12 @@ export async function fetchGitHubRepos({
   sort = "stars",
   order = "desc"
 }) {
-  const query = buildQuery(topics);
-  console.log(`🔍 GitHub Query: [${query}]`);
+  const baseQuery = buildQuery(topics);
+  const finalQuery = `${baseQuery} is:public`;
+  console.log(`🔍 GitHub Query: [${finalQuery}]`);
 
   const url = new URL("https://api.github.com/search/repositories");
-  url.searchParams.append("q", query);
+  url.searchParams.append("q", finalQuery);
   url.searchParams.append("sort", sort);
   url.searchParams.append("order", order);
   url.searchParams.append("per_page", perPage.toString());
