@@ -44,7 +44,7 @@ export async function summarizeRepo(repo) {
 
   try {
     const response = await client.chat.completions.create({
-      model: "gemini-1.5-flash",
+      model: process.env.LLM_MODEL || "gemini-2.5-flash",
       messages: [
         { role: "system", content: "You are a precise technical summarizer." },
         { role: "user", content: prompt }
