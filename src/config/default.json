@@ -1,6 +1,6 @@
 {
-  "topics": ["llm", "ai-tools"],
-  "stars_threshold": 500,
+  "topics": ["llm", "agent", "generative-ai"],
+  "stars_threshold": 200,
   "max_repos": 3,
   "language_whitelist": ["Python", "TypeScript"]
 }
