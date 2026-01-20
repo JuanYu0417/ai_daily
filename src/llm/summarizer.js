@@ -20,17 +20,13 @@ const client = new OpenAI({
  * @returns {{ en: string, cn: string, why: string }}
  */
 function parseLLMOutput(text) {
-  const getSection = (label) => {
-    const regex = new RegExp(`${label}:\\n([\\s\\S]*?)(\\n\\n|$)`, "i");
-    const match = text.match(regex);
-    return match ? match[1].trim() : "";
-  };
-
-  return {
-    en: getSection("EN_SUMMARY"),
-    cn: getSection("CN_SUMMARY"),
-    why: getSection("WHY_IT_MATTERS")
-  };
+ try {
+    const cleanText = text.replace(/```json|```/g, "").trim();
+    return JSON.parse(cleanText);
+  } catch (e) {
+    console.warn("JSON Parse Failed, raw text:", text);
+    return { en: "", cn: "", why: "" };
+  }
 }
 
 /**
@@ -46,11 +42,14 @@ export async function summarizeRepo(repo) {
     const response = await client.chat.completions.create({
       model: process.env.LLM_MODEL || "gemini-2.5-flash",
       messages: [
-        { role: "system", content: "You are a precise technical summarizer." },
+        { role: "system", 
+          content: `You are a technical summarizer. You MUST return valid JSON with exactly these keys: "en" (English summary), "cn" (Chinese summary), "why" (Why it matters).` 
+        },
         { role: "user", content: prompt }
       ],
       temperature: 0.3,
-      max_tokens: 300
+      max_tokens: 300,
+      response_format: { type: "json_object" }
     });
 
     const content = response.choices?.[0]?.message?.content;

@@ -6,7 +6,10 @@
  */
 
 import fetch from "node-fetch";
-
+import { getDateBefore } from "../utils/date.js";
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN
+});
 /**
  * Build GitHub search query from topics
  * @param {string[]} topics
@@ -40,7 +43,8 @@ export async function fetchGitHubRepos({
   order = "desc"
 }) {
   const baseQuery = buildQuery(topics);
-  const finalQuery = `${baseQuery} is:public`;
+  const dateStr = getDateBefore(7);
+  const finalQuery = `${baseQuery} created:>${dateStr} is:public`;
   console.log(`🔍 GitHub Query: [${finalQuery}]`);
 
   const url = new URL("https://api.github.com/search/repositories");

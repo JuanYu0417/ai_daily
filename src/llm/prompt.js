@@ -18,8 +18,8 @@
 export function buildRepoSummaryPrompt(repo) {
   return `
 You are a senior AI engineer and technical analyst.
-
 Given the following GitHub repository information, generate a concise and structured summary.
+Provide the concise JSON summary as requested by the system instruction.
 
 Repository:
 - Name: ${repo.name}
@@ -27,10 +27,10 @@ Repository:
 - Primary Language: ${repo.language || "Unknown"}
 - Stars: ${repo.stars}
 
-Tasks:
-1. Write a concise technical summary in English (2–3 sentences).
-2. Write a concise Chinese summary (2–3 sentences).
-3. Explain "Why it matters" in ONE short sentence, focusing on practical or technical value.
+Tasks(Map these to the JSON keys "en", "cn", "why"):
+1. "en":Write a concise technical summary in English (2–3 sentences).
+2. "cn":Write a concise Chinese summary (2–3 sentences).
+3. "why":Explain "Why it matters" in ONE short sentence, focusing on practical or technical value.
 
 Constraints:
 - Be factual and technical.
@@ -38,15 +38,5 @@ Constraints:
 - Do NOT invent features that are not implied by the description.
 - Keep the total response short and information-dense.
 
-Output format (STRICT):
-
-EN_SUMMARY:
-<English summary>
-
-CN_SUMMARY:
-<Chinese summary>
-
-WHY_IT_MATTERS:
-<One sentence explanation>
 `.trim();
 }

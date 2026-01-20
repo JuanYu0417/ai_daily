@@ -36,3 +36,9 @@ export function formatDateTime(date) {
   const d = date instanceof Date ? date : new Date(date);
   return d.toISOString().replace("T", " ").split(".")[0];
 }
+
+export function getDateBefore(days) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date.toISOString().slice(0, 10);
+}
