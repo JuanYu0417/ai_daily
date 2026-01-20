@@ -7,9 +7,6 @@
 
 import fetch from "node-fetch";
 import { getDateBefore } from "../utils/date.js";
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN
-});
 /**
  * Build GitHub search query from topics
  * @param {string[]} topics
