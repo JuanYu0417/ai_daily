@@ -48,7 +48,7 @@ export async function summarizeRepo(repo) {
         { role: "user", content: prompt }
       ],
       temperature: 0.3,
-      max_tokens: 300,
+      max_tokens: 3000,
       response_format: { type: "json_object" }
     });
 
