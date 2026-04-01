@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   schedule:
     # Run every day at 08:00 UTC
-    - cron: "0 8 * * *"
+    - cron: "37 8 * * *"
   workflow_dispatch: # allow manual trigger
 
 jobs:
