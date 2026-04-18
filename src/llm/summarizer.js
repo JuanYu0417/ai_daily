@@ -13,6 +13,8 @@ const client = new OpenAI({
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/" 
 });
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 /**
  * Parse structured LLM output
  *
@@ -40,7 +42,7 @@ export async function summarizeRepo(repo) {
 
   try {
     const response = await client.chat.completions.create({
-      model: process.env.LLM_MODEL || "gemini-2.5-flash",
+      model: process.env.LLM_MODEL || "gemini-1.5-flash",
       messages: [
         { role: "system", 
           content: `You are a technical summarizer. You MUST return valid JSON with exactly these keys: "en" (English summary), "cn" (Chinese summary), "why" (Why it matters).` 
@@ -86,12 +88,13 @@ export async function summarizeRepo(repo) {
  * @param {Array} repos
  * @returns {Promise<Array>}
  */
-export async function summarizeRepos(repos = []) {
+export async function summarizeRepos(repos = [], delayMs = 1000) {
   const results = [];
 
   for (const repo of repos) {
     const summarized = await summarizeRepo(repo);
     results.push(summarized);
+    await sleep(delayMs);
   }
 
   return results;
