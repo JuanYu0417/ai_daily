@@ -42,7 +42,7 @@ export async function summarizeRepo(repo) {
 
   try {
     const response = await client.chat.completions.create({
-      model: process.env.LLM_MODEL || "gemini-1.5-flash",
+      model: process.env.LLM_MODEL || "gemini-2.5-flash",
       messages: [
         { role: "system", 
           content: `You are a technical summarizer. You MUST return valid JSON with exactly these keys: "en" (English summary), "cn" (Chinese summary), "why" (Why it matters).` 
