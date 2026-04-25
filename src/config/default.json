@@ -3,5 +3,5 @@
   "stars_threshold": 30,
   "max_repos": 5,
   "language_whitelist": ["Python", "TypeScript"],
-  "llm_delay_ms": 2000
+  "llm_delay_ms": 4000
 }

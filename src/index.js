@@ -52,7 +52,7 @@ async function main() {
     });
 
     // 4️⃣ Summarize
-    const summarized = await summarizeRepos(ranked,config.llm_delay_ms || 1000);
+    const summarized = await summarizeRepos(ranked, config.llm_delay_ms || 4000);
 
     // 5️⃣ Generate Markdown
     const markdown = generateMarkdown({
